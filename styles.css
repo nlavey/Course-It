@@ -249,3 +249,55 @@ button:hover{
     }
 
 }
+
+.ai-generator {
+
+    margin-top: 40px;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    background: #f4f4f4;
+
+}
+
+.ai-generator h2 {
+
+    margin-bottom: 20px;
+
+}
+
+.ai-generator label {
+
+    display: block;
+
+    margin-top: 15px;
+
+    font-weight: bold;
+
+}
+
+.ai-generator input,
+.ai-generator textarea,
+.ai-generator select {
+
+    width: 100%;
+
+    padding: 10px;
+
+    margin-top: 6px;
+
+    box-sizing: border-box;
+
+}
+
+.ai-generator button {
+
+    margin-top: 20px;
+
+    padding: 12px 20px;
+
+    cursor: pointer;
+
+}

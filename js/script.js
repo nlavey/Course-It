@@ -11,7 +11,39 @@ import {
 
 import { renderApp } from "./ui.js";
 
+import { generateCurriculum } from "./ai.js";
+
 let course = loadCourse();
+
+const courseTitleInput =
+    document.getElementById("courseTitle");
+
+const topicsInput =
+    document.getElementById("topics");
+
+const difficultySelect =
+    document.getElementById("difficulty");
+
+const generateBtn =
+    document.getElementById("generateBtn");
+
+generateBtn.addEventListener("click", () => {
+
+    console.log("Generate button clicked.");
+
+    console.log({
+
+        title: courseTitleInput.value,
+
+        topics: topicsInput.value,
+
+        difficulty: difficultySelect.value
+
+    });
+
+    generateCurriculum();
+
+});
 
 if (!course) {
     course = createCourse();
