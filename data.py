@@ -1,48 +1,45 @@
 from course import Course
 from section import Section
+from meeting_time import MeetingTime
 
-cse30 = Course("CSE30", "Programming Abstractions")
+cs101 = Course("CS101", "Intro to Programming")
 
-cse30.add_section(
+cs101.add_section(
     Section(
-        "01",
-        ["Mon", "Wed"],
-        "9:20",
-        "10:55",
-        "Harrison"
+        "CS101",
+        "A",
+        MeetingTime("MWF", "09:00", "09:50"),
+        "Dr. Smith"
     )
 )
 
-cse30.add_section(
+cs101.add_section(
     Section(
-        "02",
-        ["Tue", "Thu"],
-        "2:00",
-        "3:35",
-        "Lee"
+        "CS101",
+        "B",
+        MeetingTime("TR", "11:00", "12:15"),
+        "Dr. Jones"
     )
 )
 
-math19b = Course("MATH19B", "Calculus II")
+math201 = Course("MATH201", "Calculus I")
 
-math19b.add_section(
+math201.add_section(
     Section(
-        "01",
-        ["Mon", "Wed", "Fri"],
-        "11:40",
-        "12:45",
-        "Kim"
+        "MATH201",
+        "A",
+        MeetingTime("MWF", "09:30", "10:20"),
+        "Dr. Brown"
     )
 )
 
-math19b.add_section(
+math201.add_section(
     Section(
-        "02",
-        ["Tue", "Thu"],
-        "8:00",
-        "9:35",
-        "Smith"
+        "MATH201",
+        "B",
+        MeetingTime("TR", "09:30", "10:45"),
+        "Dr. Green"
     )
 )
 
-courses = [cse30, math19b]
+courses = [cs101, math201]
