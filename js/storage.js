@@ -1,27 +1,16 @@
-const STORAGE_KEY = "courseItCourse";
+const KEY = "courses";
 
-export function loadCourse() {
-    const savedCourse = localStorage.getItem(STORAGE_KEY);
+export function loadCourses(){
 
-    if (!savedCourse) {
-        return null;
-    }
+    return JSON.parse(localStorage.getItem(KEY)) || [];
 
-    try {
-        return JSON.parse(savedCourse);
-    } catch (error) {
-        console.error("Unable to load course:", error);
-        return null;
-    }
 }
 
-export function saveCourse(course) {
+export function saveCourses(courses){
+
     localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(course)
+        KEY,
+        JSON.stringify(courses)
     );
-}
 
-export function clearCourse() {
-    localStorage.removeItem(STORAGE_KEY);
 }

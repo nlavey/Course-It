@@ -1,155 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course It</title>
+    <title>CSP Course Scheduler</title>
 
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<header>
-    <h1>📚 Course It</h1>
-    <p>Turn your syllabus into an organized study plan.</p>
-</header>
+<h1>CSP Course Scheduler</h1>
 
-<main class="container">
+<section class="course-form">
 
-    <section class="card">
+    <input
+        id="courseName"
+        type="text"
+        placeholder="Course Name">
 
-        <h2>Course Information</h2>
+    <input
+        id="units"
+        type="number"
+        placeholder="Units">
 
-        <div class="form-group">
-            <label for="courseName">Course Name</label>
-            <input
-                id="courseName"
-                type="text"
-                placeholder="Example: CSE 30">
-        </div>
+    <button id="addBtn">
+        Add Course
+    </button>
 
-        <div class="form-group">
-            <label for="instructor">
-                Instructor
-            </label>
+</section>
 
-            <input
-                id="instructor"
-                type="text"
-                placeholder="Professor Smith">
-        </div>
+<section>
 
-        <button id="saveCourse">
-            Save Course
-        </button>
+    <ul id="courseList"></ul>
 
-    </section>
+</section>
 
-    <section class="card">
-
-        <h2>Add Topic</h2>
-
-        <div class="topic-row">
-
-            <input
-                id="topicInput"
-                type="text"
-                placeholder="Enter topic">
-
-            <button id="addTopic">
-                Add
-            </button>
-
-        </div>
-
-    </section>
-
-    <section class="card">
-
-        <div class="section-title">
-
-            <h2>Topics</h2>
-
-            <span id="topicCount">
-                0 Topics
-            </span>
-
-        </div>
-
-        <ul id="topicList">
-
-            <li class="empty">
-                No topics yet.
-            </li>
-
-        </ul>
-
-    </section>
-
-    <section class="card">
-
-        <h2>Progress</h2>
-
-        <div class="progress-info">
-
-            <span id="progressText">
-                0 / 0 Complete
-            </span>
-
-            <span id="progressPercent">
-                0%
-            </span>
-
-        </div>
-
-        <div class="progress-bar">
-
-            <div id="progressFill"></div>
-
-        </div>
-
-    </section>
-
-    <section class="card ai-generator">
-
-        <h2>AI Curriculum Generator</h2>
-
-        <p class="helper-text">
-            Enter a list of topics and let AI organize them into a structured curriculum.
-        </p>
-
-        <label for="courseTitle">
-            Course Title
-        </label>
-
-        <input
-            id="courseTitle"
-            type="text"
-            placeholder="Web Development">
-
-        <label for="topics">
-
-            Learning Goals
-
-        </label>
-
-        <textarea
-            id="topics"
-            rows="8"
-            placeholder="HTML &#13;&#10;CSS &#13;&#10;JavaScript &#13;&#10;React"></textarea>
-
-        <button id="generateBtn" type="button">
-
-            Generate Curriculum
-
-        </button>
-
-    </section>
-
-</main>
-
-<script type="module" src="js/script.js"></script>
+<script type="module" src="script.js"></script>
 
 </body>
 </html>
