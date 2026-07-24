@@ -1,48 +1,62 @@
-from typing import List
+from csp_utils import copy_domains
+from csp_utils import remove_conflicting_sections
 
 class Scheduler:
 
     def __init__(self, courses):
+
         self.courses = courses
 
     def solve(self):
-        """
-        Returns a list of chosen sections,
-        or None if no valid schedule exists.
-        """
-        return self._backtrack(0, [])
 
-    def _backtrack(self, course_index, chosen_sections):
+        domains = {}
 
-        if course_index == len(self.courses):
-            return chosen_sections.copy()
+        for course in self.courses:
+            domains[course] = course.sections[:]
 
-        current_course = self.courses[course_index]
+        return self.forward_check({}, domains)
 
-        for section in current_course.sections:
+    def forward_check(self, assignment, domains):
 
-            if self._is_valid(section, chosen_sections):
+        # Finished
 
-                chosen_sections.append(section)
+        if len(assignment) == len(self.courses):
+            return assignment
 
-                result = self._backtrack(
-                    course_index + 1,
-                    chosen_sections
-                )
+        # Pick next unassigned course
 
-                if result is not None:
-                    return result
+        unassigned = []
 
-                # Undo the choice
-                chosen_sections.pop()
+        for course in self.courses:
+            if course not in assignment:
+                unassigned.append(course)
+
+        course = unassigned[0]
+
+        for section in domains[course]:
+
+            new_assignment = assignment.copy()
+            new_assignment[course] = section
+
+            new_domains = copy_domains(domains)
+
+            new_domains[course] = [section]
+
+            valid = remove_conflicting_sections(
+                new_domains,
+                course,
+                section
+            )
+
+            if not valid:
+                continue
+
+            result = self.forward_check(
+                new_assignment,
+                new_domains
+            )
+
+            if result is not None:
+                return result
 
         return None
-
-    def _is_valid(self, new_section, chosen_sections):
-
-        for existing in chosen_sections:
-
-            if new_section.conflicts_with(existing):
-                return False
-
-        return True

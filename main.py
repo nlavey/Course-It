@@ -7,11 +7,12 @@ scheduler = Scheduler(courses)
 
 solution = scheduler.solve()
 
-if solution is None:
-    print("No valid schedule found.")
+if solution:
+
+    print("Valid Schedule\n")
+
+    for course, section in solution.items():
+        print(section)
 
 else:
-    print("Valid Schedule")
-
-    for section in solution:
-        print(section)
+    print("No valid schedule found.")
