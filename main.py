@@ -1,7 +1,17 @@
-from data import courses
+from data import create_sample_courses
+from scheduler import Scheduler
 
-print("Available Courses")
-print("=================\n")
+courses = create_sample_courses()
 
-for course in courses:
-    course.display()
+scheduler = Scheduler(courses)
+
+solution = scheduler.solve()
+
+if solution is None:
+    print("No valid schedule found.")
+
+else:
+    print("Valid Schedule")
+
+    for section in solution:
+        print(section)

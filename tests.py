@@ -1,17 +1,12 @@
-from data import courses
+from scheduler import Scheduler
+from data import create_sample_courses
 
-cs101 = courses[0]
-math201 = courses[1]
 
-section1 = cs101.sections[0]
-section2 = math201.sections[0]
-section3 = math201.sections[1]
+def test_scheduler():
+    courses = create_sample_courses()
 
-print(section1)
-print(section2)
-print(section3)
+    scheduler = Scheduler(courses)
+    solution = scheduler.solve()
 
-print()
-
-print("Conflict?")
-print(section1.conflicts_with(section3))
+    assert solution is not None
+    assert len(solution) == len(courses)

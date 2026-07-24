@@ -13,7 +13,7 @@ class Section:
 
     def __str__(self):
         return (
-            f"{self.course_code} "
-            f"{self.section_id} "
+            f"{self.course_code} {self.section_id} | "
+            f"{self.instructor} | "
             f"{self.meeting_time}"
         )
