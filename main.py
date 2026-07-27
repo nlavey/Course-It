@@ -1,18 +1,27 @@
 from data import create_sample_courses
 from scheduler import Scheduler
+from preferences import Preference
 
 courses = create_sample_courses()
 
-scheduler = Scheduler(courses)
+scheduler = Scheduler(
+    courses,
+    Preference.NO_FRIDAY
+)
 
-solution = scheduler.solve()
+solutions = scheduler.solve()
 
-if solution:
+if solutions:
 
-    print("Valid Schedule\n")
+    for i, solution in enumerate(solutions, start=1):
 
-    for course, section in solution.items():
-        print(section)
+        print("=" * 40)
+        print(f"Schedule #{i}\n")
+
+        for course, section in solution.items():
+            print(section)
+
+        print()
 
 else:
-    print("No valid schedule found.")
+    print("No valid schedules found.")

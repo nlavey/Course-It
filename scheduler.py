@@ -1,11 +1,26 @@
 from csp_utils import copy_domains
 from csp_utils import remove_conflicting_sections
+from ranking import score
+
+
+class SolutionList(list):
+    def values(self):
+        if not self:
+            return []
+
+        first_solution = self[0]
+        if isinstance(first_solution, dict):
+            return list(first_solution.values())
+
+        return []
+
 
 class Scheduler:
 
-    def __init__(self, courses):
+    def __init__(self, courses, preference=None):
 
         self.courses = courses
+        self.preference = preference
 
     def solve(self):
 
@@ -14,14 +29,32 @@ class Scheduler:
         for course in self.courses:
             domains[course] = course.sections[:]
 
-        return self.forward_check({}, domains)
+        solutions = SolutionList()
 
-    def forward_check(self, assignment, domains):
+        self.forward_check(
+            {},
+            domains,
+            solutions
+        )
+
+        solutions.sort(
+            key=lambda s: score(s, self.preference),
+            reverse=True
+        )
+
+        return SolutionList(solutions[:10])
+
+    def forward_check(self, assignment, domains, solutions):
 
         # Finished
 
         if len(assignment) == len(self.courses):
-            return assignment
+
+            solutions.append(
+                assignment.copy()
+            )
+
+            return
 
         # Pick next unassigned course
 
@@ -51,12 +84,10 @@ class Scheduler:
             if not valid:
                 continue
 
-            result = self.forward_check(
+            self.forward_check(
                 new_assignment,
-                new_domains
+                new_domains,
+                solutions
             )
 
-            if result is not None:
-                return result
-
-        return None
+        return

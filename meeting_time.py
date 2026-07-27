@@ -1,6 +1,7 @@
 class MeetingTime:
     def __init__(self, days, start, end):
         self.days = days
+        self.day = days
         self.start = self.time_to_minutes(start)
         self.end = self.time_to_minutes(end)
 
