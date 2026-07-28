@@ -1,27 +1,12 @@
-from data import create_sample_courses
-from scheduler import Scheduler
-from preferences import Preference
+from frontend.app import SchedulerApp
 
-courses = create_sample_courses()
 
-scheduler = Scheduler(
-    courses,
-    Preference.NO_FRIDAY
-)
+def main():
 
-solutions = scheduler.solve()
+    app = SchedulerApp()
 
-if solutions:
+    app.mainloop()
 
-    for i, solution in enumerate(solutions, start=1):
 
-        print("=" * 40)
-        print(f"Schedule #{i}\n")
-
-        for course, section in solution.items():
-            print(section)
-
-        print()
-
-else:
-    print("No valid schedules found.")
+if __name__ == "__main__":
+    main()
