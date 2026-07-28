@@ -1,34 +1,31 @@
 import tkinter as tk
 
-from frontend.sidebar import Sidebar
-from frontend.calendar_view import CalendarView
+from .sidebar import Sidebar
+from .calendar_view import CalendarView
+from .colors import *
 
-from frontend.colors import *
 
-
-class SchedulerApp(tk.Tk):
+class CourseSchedulerApp:
 
     def __init__(self):
 
-        super().__init__()
+        self.root = tk.Tk()
 
-        self.title("Course Scheduler")
+        self.root.title("Course Scheduler")
 
-        self.geometry("1200x700")
+        self.root.geometry("1200x700")
 
-        self.configure(bg=BACKGROUND)
+        self.root.configure(bg=WINDOW_BG)
 
-        self.sidebar = Sidebar(self)
+        self.build_ui()
 
-        self.sidebar.pack(
-            side="left",
-            fill="y"
-        )
+    def build_ui(self):
 
-        self.calendar = CalendarView(self)
+        sidebar = Sidebar(self.root)
+        sidebar.pack(side="left", fill="y")
 
-        self.calendar.pack(
-            side="right",
-            fill="both",
-            expand=True
-        )
+        calendar = CalendarView(self.root)
+        calendar.pack(side="right", fill="both", expand=True)
+
+    def run(self):
+        self.root.mainloop()

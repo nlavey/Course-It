@@ -1,6 +1,6 @@
 from course import Course
-from section import Section
-from meeting_time import MeetingTime
+from backend.section import Section
+from backend.meeting_time import MeetingTime
 
 
 def create_sample_courses():

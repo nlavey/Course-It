@@ -1,6 +1,6 @@
-from csp_utils import copy_domains
-from csp_utils import remove_conflicting_sections
-from ranking import score
+from backend.csp_utils import copy_domains
+from backend.csp_utils import remove_conflicting_sections
+from backend.ranking import score
 
 
 class SolutionList(list):

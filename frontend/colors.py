@@ -1,11 +1,22 @@
-BACKGROUND = "#f5f5f5"
+# Sidebar
 
-SIDEBAR = "#2d3436"
+SIDEBAR_BG = "#ECEFF4"
 
-CONTENT = "#ffffff"
+# Calendar
 
-PRIMARY = "#0984e3"
+CALENDAR_BG = "white"
 
-TEXT_LIGHT = "#ffffff"
+# Window
 
-TEXT_DARK = "#2d3436"
+WINDOW_BG = "#D8DEE9"
+
+# Buttons
+
+BUTTON_BG = "#5E81AC"
+BUTTON_FG = "white"
+
+# Fonts
+
+TITLE_FONT = ("Segoe UI", 14, "bold")
+HEADER_FONT = ("Segoe UI", 11, "bold")
+NORMAL_FONT = ("Segoe UI", 10)

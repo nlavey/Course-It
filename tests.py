@@ -1,5 +1,5 @@
-from data import create_sample_courses
-from scheduler import Scheduler
+from backend.data import create_sample_courses
+from backend.scheduler import Scheduler
 
 
 def test_scheduler():

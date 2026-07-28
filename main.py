@@ -1,11 +1,9 @@
-from frontend.app import SchedulerApp
+from frontend.app import CourseSchedulerApp
 
 
 def main():
-
-    app = SchedulerApp()
-
-    app.mainloop()
+    app = CourseSchedulerApp()
+    app.run()
 
 
 if __name__ == "__main__":
