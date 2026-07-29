@@ -1,4 +1,4 @@
-from course import Course
+from backend.course import Course
 from backend.section import Section
 from backend.meeting_time import MeetingTime
 
@@ -68,3 +68,18 @@ def create_sample_courses():
     )
 
     return [cs101, math201, phys150]
+
+def get_course_names():
+    """Return a list of all available course codes."""
+    return [course.course_code for course in create_sample_courses()]
+
+
+def get_courses_by_codes(course_codes):
+    """
+    Return Course objects matching the selected course codes.
+
+    Example:
+        get_courses_by_codes(["CS101", "PHYS150"])
+    """
+    all_courses = create_sample_courses()
+    return [course for course in all_courses if course.code in course_codes]
