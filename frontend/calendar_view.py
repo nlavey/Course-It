@@ -34,12 +34,12 @@ class CalendarView(tk.Frame):
         # Calendar Grid
         # -------------------------
 
-        calendar = tk.Frame(
+        self.grid_frame = tk.Frame(
             self,
             bg=CALENDAR_BG
         )
 
-        calendar.pack(
+        self.grid_frame.pack(
             fill="both",
             expand=True,
             padx=20,
@@ -60,7 +60,7 @@ class CalendarView(tk.Frame):
         # Day headers
         for col, day in enumerate(days):
             label = tk.Label(
-                calendar,
+                self.grid_frame,
                 text=day,
                 bg=CALENDAR_BG,
                 font=HEADER_FONT,
@@ -75,7 +75,7 @@ class CalendarView(tk.Frame):
         for row, hour in enumerate(hours, start=1):
 
             time_label = tk.Label(
-                calendar,
+                self.grid_frame,
                 text=f"{hour}:00",
                 bg=CALENDAR_BG,
                 font=NORMAL_FONT,
@@ -88,7 +88,7 @@ class CalendarView(tk.Frame):
 
             for col in range(1, 6):
                 cell = tk.Frame(
-                    calendar,
+                    self.grid_frame,
                     bg="white",
                     relief="ridge",
                     borderwidth=1,
@@ -103,7 +103,28 @@ class CalendarView(tk.Frame):
 
         # Make rows and columns expand with the window
         for col in range(6):
-            calendar.grid_columnconfigure(col, weight=1)
+            self.grid_frame.grid_columnconfigure(col, weight=1)
 
         for row in range(len(hours) + 1):
-            calendar.grid_rowconfigure(row, weight=1)
+            self.grid_frame.grid_rowconfigure(row, weight=1)
+
+    def clear_schedule(self):
+
+        for widget in self.grid_frame.winfo_children():
+
+            if getattr(widget, "is_course_block", False):
+                widget.destroy()
+
+    def display_schedule(self, schedule):
+
+        self.clear_schedule()
+
+        if schedule is None:
+            return
+
+        from frontend.renderer import draw_schedule
+
+        draw_schedule(
+            self.grid_frame,
+            schedule
+        )

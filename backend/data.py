@@ -82,4 +82,4 @@ def get_courses_by_codes(course_codes):
         get_courses_by_codes(["CS101", "PHYS150"])
     """
     all_courses = create_sample_courses()
-    return [course for course in all_courses if course.code in course_codes]
+    return [course for course in all_courses if course.course_code in course_codes]
