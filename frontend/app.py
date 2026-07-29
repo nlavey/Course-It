@@ -31,11 +31,6 @@ class SchedulerApp(tk.Tk):
             expand=True,
         )
 
-    def generate_schedule(self):
+    def generate_schedule(self, selected_courses):
 
-        selected = self.sidebar.get_selected_courses()
-
-        print("Selected courses:")
-
-        for course in selected:
-            print(course)
+        print(selected_courses)

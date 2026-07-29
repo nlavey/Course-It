@@ -10,6 +10,9 @@ class Sidebar(tk.Frame):
 
         self.pack_propagate(False)
 
+        # Save callback
+        self.generate_callback = generate_callback
+
         title = tk.Label(
             self,
             text="Course Selection",
@@ -40,7 +43,7 @@ class Sidebar(tk.Frame):
         generate_button = tk.Button(
             self,
             text="Generate Schedule",
-            command=generate_callback,
+            command=self.generate_schedule,
         )
 
         generate_button.pack(fill="x", padx=10, pady=10)
@@ -55,3 +58,9 @@ class Sidebar(tk.Frame):
                 selected.append(name)
 
         return selected
+
+    def generate_schedule(self):
+
+        selected = self.get_selected_courses()
+
+        self.generate_callback(selected)
