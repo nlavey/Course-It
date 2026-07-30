@@ -39,6 +39,15 @@ class CalendarView(tk.Frame):
             bg=CALENDAR_BG
         )
 
+        self.message_label = tk.Label(
+            self,
+            text="",
+            bg=CALENDAR_BG,
+            font=("Segoe UI", 11),
+            fg="#4C566A"
+        )
+        self.message_label.pack(pady=(0, 10))
+
         self.grid_frame.pack(
             fill="both",
             expand=True,
@@ -55,7 +64,7 @@ class CalendarView(tk.Frame):
             "Friday"
         ]
 
-        hours = list(range(8, 18))  # 8 AM to 5 PM
+        time_slots = list(range(8 * 60, 18 * 60, 30))
 
         # Day headers
         for col, day in enumerate(days):
@@ -72,11 +81,15 @@ class CalendarView(tk.Frame):
             label.grid(row=0, column=col, sticky="nsew")
 
         # Time labels and empty cells
-        for row, hour in enumerate(hours, start=1):
+        for row, minutes in enumerate(time_slots, start=1):
+            if minutes % 60 == 0:
+                label_text = f"{minutes // 60}:00"
+            else:
+                label_text = f"{minutes // 60}:{minutes % 60:02d}"
 
             time_label = tk.Label(
                 self.grid_frame,
-                text=f"{hour}:00",
+                text=label_text,
                 bg=CALENDAR_BG,
                 font=NORMAL_FONT,
                 relief="ridge",
@@ -92,7 +105,7 @@ class CalendarView(tk.Frame):
                     bg="white",
                     relief="ridge",
                     borderwidth=1,
-                    height=50
+                    height=28
                 )
 
                 cell.grid(
@@ -105,7 +118,7 @@ class CalendarView(tk.Frame):
         for col in range(6):
             self.grid_frame.grid_columnconfigure(col, weight=1)
 
-        for row in range(len(hours) + 1):
+        for row in range(len(time_slots) + 1):
             self.grid_frame.grid_rowconfigure(row, weight=1)
 
     def clear_schedule(self):
@@ -119,8 +132,11 @@ class CalendarView(tk.Frame):
 
         self.clear_schedule()
 
-        if schedule is None:
+        if schedule is None or schedule == []:
+            self.message_label.config(text="No valid schedule exists yet. Try selecting different courses.")
             return
+
+        self.message_label.config(text="")
 
         from frontend.renderer import draw_schedule
 

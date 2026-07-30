@@ -6,6 +6,8 @@ from frontend.calendar_view import CalendarView
 from backend.scheduler import Scheduler
 from backend.data import get_courses_by_codes
 
+from .navigator import Navigator
+
 
 class SchedulerApp(tk.Tk):
 
@@ -14,23 +16,37 @@ class SchedulerApp(tk.Tk):
 
         self.title("Course Scheduler")
         self.geometry("1200x750")
+        self.schedules = []
+        self.current_schedule = 0
 
         self.sidebar = Sidebar(
             self,
             self.generate_schedule
         )
 
-        self.calendar = CalendarView(self)
+        self.content_frame = tk.Frame(self, bg="white")
+        self.calendar = CalendarView(self.content_frame)
+
+        self.navigator = Navigator(
+            self.content_frame,
+            self.previous_schedule,
+            self.next_schedule
+        )
 
         self.sidebar.pack(side="left", fill="y")
-        self.calendar.pack(side="right",
-                           fill="both",
-                           expand=True)
+        self.content_frame.pack(side="right", fill="both", expand=True)
+        self.calendar.pack(side="top", fill="both", expand=True)
+        self.navigator.pack(side="bottom", fill="x", pady=(0, 10))
+        self.navigator.update(0, 0)
 
     def generate_schedule(self, selected_courses):
 
+        self.current_schedule = 0
+
         if not selected_courses:
+            self.schedules = []
             self.calendar.display_schedule(None)
+            self.navigator.update(self.current_schedule, len(self.schedules))
             return
 
         # Load all available courses
@@ -45,7 +61,32 @@ class SchedulerApp(tk.Tk):
 
         # Run the CSP solver
         scheduler = Scheduler(chosen_courses)
-        schedule = scheduler.solve()
+        schedules = scheduler.solve()
+        self.schedules = list(schedules)
 
-        # Display the result
-        self.calendar.display_schedule(schedule)
+        if self.schedules:
+            self.calendar.display_schedule(self.schedules[self.current_schedule])
+        else:
+            self.calendar.display_schedule([])
+
+        self.navigator.update(self.current_schedule, len(self.schedules))
+
+    def previous_schedule(self):
+
+        if not self.schedules:
+            return
+
+        if self.current_schedule > 0:
+            self.current_schedule -= 1
+            self.calendar.display_schedule(self.schedules[self.current_schedule])
+            self.navigator.update(self.current_schedule, len(self.schedules))
+
+    def next_schedule(self):
+
+        if not self.schedules:
+            return
+
+        if self.current_schedule < len(self.schedules) - 1:
+            self.current_schedule += 1
+            self.calendar.display_schedule(self.schedules[self.current_schedule])
+            self.navigator.update(self.current_schedule, len(self.schedules))

@@ -22,6 +22,52 @@ COLORS = [
 ]
 
 
+def _format_time(minutes):
+    hour = minutes // 60
+    minute = minutes % 60
+    suffix = "AM" if hour < 12 else "PM"
+    if hour > 12:
+        hour -= 12
+    if hour == 0:
+        hour = 12
+    return f"{hour}:{minute:02d} {suffix}"
+
+
+def _build_block_text(section):
+    course_code = getattr(section, "course_code", None) or getattr(getattr(section, "course", None), "code", None)
+    section_id = getattr(section, "section_id", None)
+    instructor = getattr(section, "instructor", "")
+    room = getattr(section, "room", None) or getattr(getattr(section, "meeting_time", None), "room", None)
+
+    parts = [course_code]
+    if section_id:
+        parts.append(f"Section {section_id}")
+    if room:
+        parts.append(f"Room {room}")
+    if instructor:
+        parts.append(instructor)
+
+    meeting_times = getattr(section, "meeting_times", None)
+    if meeting_times is None:
+        meeting_time = getattr(section, "meeting_time", None)
+        meeting_times = [meeting_time] if meeting_time is not None else []
+    elif not isinstance(meeting_times, list):
+        meeting_times = [meeting_times]
+
+    detail_lines = []
+    for meeting_time in meeting_times:
+        if meeting_time is None:
+            continue
+        detail_lines.append(
+            f"{meeting_time.day}: {_format_time(meeting_time.start)}-{_format_time(meeting_time.end)}"
+        )
+
+    if detail_lines:
+        parts.extend(detail_lines)
+
+    return "\n".join(parts)
+
+
 def minutes_to_row(minutes):
 
     return (minutes - 480) // 30 + 1
@@ -43,6 +89,7 @@ def draw_schedule(parent, schedule):
         sections = [schedule]
 
     color_map = {}
+    color_index = 0
 
     for section in sections:
 
@@ -57,7 +104,8 @@ def draw_schedule(parent, schedule):
             continue
 
         if course_code not in color_map:
-            color_map[course_code] = random.choice(COLORS)
+            color_map[course_code] = COLORS[color_index % len(COLORS)]
+            color_index += 1
 
         color = color_map[course_code]
 
@@ -69,6 +117,7 @@ def draw_schedule(parent, schedule):
             meeting_times = [meeting_times]
 
         instructor = getattr(section, "instructor", "")
+        block_text = _build_block_text(section)
 
         for meeting_time in meeting_times:
             if meeting_time is None:
@@ -83,11 +132,13 @@ def draw_schedule(parent, schedule):
 
             label = tk.Label(
                 parent,
-                text=f"{course_code}\n{instructor}",
+                text=block_text,
                 bg=color,
                 relief="raised",
                 bd=1,
-                justify="center"
+                justify="center",
+                wraplength=140,
+                font=("Segoe UI", 8)
             )
 
             label.is_course_block = True
