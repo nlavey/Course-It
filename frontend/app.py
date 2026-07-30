@@ -39,7 +39,7 @@ class SchedulerApp(tk.Tk):
         self.navigator.pack(side="bottom", fill="x", pady=(0, 10))
         self.navigator.update(0, 0)
 
-    def generate_schedule(self, selected_courses):
+    def generate_schedule(self, selected_courses, preference=None):
 
         self.current_schedule = 0
 
@@ -60,7 +60,7 @@ class SchedulerApp(tk.Tk):
         ]
 
         # Run the CSP solver
-        scheduler = Scheduler(chosen_courses)
+        scheduler = Scheduler(chosen_courses, preference=preference)
         schedules = scheduler.solve()
         self.schedules = list(schedules)
 

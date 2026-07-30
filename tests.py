@@ -1,9 +1,13 @@
 import tkinter as tk
 
+import pytest
+
 from backend.data import create_sample_courses
+from backend.preferences import Preference
 from backend.scheduler import Scheduler
 from frontend.calendar_view import CalendarView
 from frontend.navigator import Navigator
+from frontend.sidebar import Sidebar
 
 
 def test_scheduler():
@@ -58,7 +62,11 @@ def test_navigator_empty_state():
 
 def test_calendar_view_message_for_empty_schedule():
 
-    root = tk.Tk()
+    try:
+        root = tk.Tk()
+    except tk.TclError as exc:
+        pytest.skip(f"Tk is not available in this environment: {exc}")
+
     root.withdraw()
 
     try:
@@ -67,6 +75,31 @@ def test_calendar_view_message_for_empty_schedule():
 
         assert view.message_label is not None
         assert "No valid schedule" in view.message_label.cget("text")
+    finally:
+        root.destroy()
+
+
+def test_sidebar_preference_selection_uses_callback():
+
+    try:
+        root = tk.Tk()
+    except tk.TclError as exc:
+        pytest.skip(f"Tk is not available in this environment: {exc}")
+
+    root.withdraw()
+
+    try:
+        calls = []
+
+        def callback(selected_courses, preference):
+            calls.append((selected_courses, preference))
+
+        sidebar = Sidebar(root, callback)
+        sidebar.select_preference(Preference.NO_FRIDAY)
+
+        sidebar.generate_schedule()
+
+        assert calls[0][1] == Preference.NO_FRIDAY
     finally:
         root.destroy()
 

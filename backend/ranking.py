@@ -1,5 +1,7 @@
 from collections import defaultdict
 
+from backend.preferences import Preference
+
 
 def _sections_from_schedule(schedule):
     if isinstance(schedule, dict):
@@ -10,22 +12,22 @@ def _sections_from_schedule(schedule):
 def score(schedule, preference):
     sections = _sections_from_schedule(schedule)
 
-    if preference == "fewest_gaps":
+    if preference == Preference.FEWEST_GAPS:
         return -count_gaps(sections)
 
-    if preference == "latest_start":
+    if preference == Preference.LATEST_START:
         return latest_start(sections)
 
-    if preference == "earliest_finish":
+    if preference == Preference.EARLIEST_FINISH:
         return -earliest_finish(sections)
 
-    if preference == "four_day_week":
+    if preference == Preference.FOUR_DAY_WEEK:
         return -days_used(sections)
 
-    if preference == "no_friday":
+    if preference == Preference.NO_FRIDAY:
         return no_friday(sections)
 
-    if preference == "longest_lunch":
+    if preference == Preference.LONGEST_LUNCH:
         return lunch_length(sections, mode="worst")
 
     return 0
