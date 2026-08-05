@@ -1,0 +1,6 @@
+Course,Title,Department,Section,Instructor,Days,Start,End
+CSE101,Introduction to Programming,CSE,01,Smith,MWF,09:00,09:50
+CSE101,Introduction to Programming,CSE,02,Jones,TuTh,11:00,12:35
+CSE102,Data Structures,CSE,01,Lee,MWF,10:00,10:50
+MATH19A,Calculus I,MATH,01,Brown,MWF,08:00,08:50
+PHYS5A,Physics I,PHYS,01,Wilson,TuTh,13:20,14:55

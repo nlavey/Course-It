@@ -2,8 +2,11 @@ from backend.course import Course
 from backend.section import Section
 from backend.meeting_time import MeetingTime
 
+from backend.data_loader import load_catalog
+
 
 def create_sample_courses():
+    """
     # CS101
     cs101 = Course("CS101", "Introduction to Programming")
 
@@ -68,6 +71,8 @@ def create_sample_courses():
     )
 
     return [cs101, math201, phys150]
+    """
+    return load_catalog("data.csv")
 
 def get_course_names():
     """Return a list of all available course codes."""

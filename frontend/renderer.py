@@ -58,9 +58,12 @@ def _build_block_text(section):
     for meeting_time in meeting_times:
         if meeting_time is None:
             continue
-        detail_lines.append(
-            f"{meeting_time.day}: {_format_time(meeting_time.start)}-{_format_time(meeting_time.end)}"
-        )
+
+        days = meeting_time.days if isinstance(meeting_time.days, list) else [meeting_time.day]
+        for day in days:
+            detail_lines.append(
+                f"{day}: {_format_time(meeting_time.start)}-{_format_time(meeting_time.end)}"
+            )
 
     if detail_lines:
         parts.extend(detail_lines)
