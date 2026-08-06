@@ -1,82 +1,35 @@
-from backend.course import Course
-from backend.section import Section
-from backend.meeting_time import MeetingTime
-
 from backend.data_loader import load_catalog
+
+_CATALOG_COURSES = None
 
 
 def create_sample_courses():
-    """
-    # CS101
-    cs101 = Course("CS101", "Introduction to Programming")
+    courses = load_catalog("data.csv")
+    set_catalog(courses)
+    return courses
 
-    cs101.add_section(
-        Section("CS101", "A",
-                MeetingTime("Mon", "09:00", "10:00"),
-                "Dr. Smith")
-    )
 
-    cs101.add_section(
-        Section("CS101", "B",
-                MeetingTime("Tue", "09:00", "10:00"),
-                "Dr. Johnson")
-    )
+def set_catalog(courses):
+    global _CATALOG_COURSES
+    _CATALOG_COURSES = list(courses)
+    return _CATALOG_COURSES
 
-    cs101.add_section(
-        Section("CS101", "C",
-                MeetingTime("Thu", "13:00", "14:00"),
-                "Dr. Lee")
-    )
 
-    # MATH201
-    math201 = Course("MATH201", "Calculus I")
+def load_catalog_from_path(path):
+    courses = load_catalog(path)
+    return set_catalog(courses)
 
-    math201.add_section(
-        Section("MATH201", "A",
-                MeetingTime("Mon", "09:00", "10:00"),
-                "Dr. Brown")
-    )
 
-    math201.add_section(
-        Section("MATH201", "B",
-                MeetingTime("Wed", "11:00", "12:00"),
-                "Dr. Green")
-    )
+def get_available_courses():
+    global _CATALOG_COURSES
+    if _CATALOG_COURSES is None:
+        return create_sample_courses()
+    return _CATALOG_COURSES
 
-    math201.add_section(
-        Section("MATH201", "C",
-                MeetingTime("Fri", "09:00", "10:00"),
-                "Dr. Davis")
-    )
-
-    # PHYS150
-    phys150 = Course("PHYS150", "Physics I")
-
-    phys150.add_section(
-        Section("PHYS150", "A",
-                MeetingTime("Tue", "09:00", "10:00"),
-                "Dr. White")
-    )
-
-    phys150.add_section(
-        Section("PHYS150", "B",
-                MeetingTime("Thu", "14:00", "15:00"),
-                "Dr. Black")
-    )
-
-    phys150.add_section(
-        Section("PHYS150", "C",
-                MeetingTime("Fri", "14:00", "15:00"),
-                "Dr. Miller")
-    )
-
-    return [cs101, math201, phys150]
-    """
-    return load_catalog("data.csv")
 
 def get_course_names():
     """Return a list of all available course codes."""
-    return [course.course_code for course in create_sample_courses()]
+    return [course.course_code for course in get_available_courses()]
 
 
 def get_courses_by_codes(course_codes):
@@ -86,5 +39,5 @@ def get_courses_by_codes(course_codes):
     Example:
         get_courses_by_codes(["CS101", "PHYS150"])
     """
-    all_courses = create_sample_courses()
+    all_courses = get_available_courses()
     return [course for course in all_courses if course.course_code in course_codes]
