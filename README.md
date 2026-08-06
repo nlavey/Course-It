@@ -91,7 +91,7 @@ The solver performs a backtracking search while using forward checking to elimin
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/nlavey/Course-It.git
 cd course_scheduler
 ```
 
